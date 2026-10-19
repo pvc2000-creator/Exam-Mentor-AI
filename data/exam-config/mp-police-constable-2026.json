@@ -1,0 +1,263 @@
+{
+  "examCode": "MP_POLICE_CONSTABLE",
+  "examName": "Madhya Pradesh Police Constable (GD) Recruitment Test",
+  "examNameHi": "मध्यप्रदेश पुलिस आरक्षक (जीडी) भर्ती परीक्षा",
+  "version": "2026.1",
+  "cycle": "PCRT-GD 2026",
+  "conductingBody": "Madhya Pradesh Employees Selection Board (MPESB), Bhopal",
+  "verification": "SECONDARY_CONSISTENT",
+  "verificationNote": "Pattern figures agree across several independent secondary sources that summarise the official 2026 rule book (dated 09-09-2026). The official rule book PDF on esb.mp.gov.in could not be fetched from the build environment, so these values must be re-checked against the PDF before relying on them. See research/official_sources.md.",
+  "pattern": {
+    "mode": "Computer-based test (CBT), objective MCQ",
+    "totalQuestions": 100,
+    "totalMarks": 100,
+    "durationMinutes": 120,
+    "optionsPerQuestion": 4,
+    "marking": { "correct": 1, "incorrect": 0, "unanswered": 0 },
+    "negativeMarking": false,
+    "level": "Approximately MP Board Class 8 standard (as reported for the 2025 and 2026 cycles; unverified against the PDF)",
+    "languages": ["HI", "EN"],
+    "languageNote": "One secondary source states the medium is Hindi; earlier cycles were bilingual. Treated as UNVERIFIED. The app supports Hindi and English text per question."
+  },
+  "sections": [
+    { "subjectId": "gk-reasoning", "name": "General Knowledge and Logical Reasoning", "nameHi": "सामान्य ज्ञान एवं तार्किक ज्ञान", "questions": 40, "marks": 40 },
+    { "subjectId": "mental-ability", "name": "Intelligence and Mental Aptitude", "nameHi": "बुद्धि एवं मानसिक क्षमता", "questions": 30, "marks": 30 },
+    { "subjectId": "science-arithmetic", "name": "Science and Simple Arithmetic", "nameHi": "विज्ञान एवं सरल अंकगणित", "questions": 30, "marks": 30 }
+  ],
+  "topicWeightsNote": "Official documents give only section totals. Topic weights inside a section are a project assumption used to spread coverage; they are not an official distribution and should be replaced by previous-year paper analysis when verified papers are imported.",
+  "syllabus": [
+    {
+      "id": "gk-reasoning",
+      "name": "General Knowledge and Logical Reasoning",
+      "nameHi": "सामान्य ज्ञान एवं तार्किक ज्ञान",
+      "topics": [
+        { "id": "gk-history", "name": "Indian History and Freedom Movement", "nameHi": "भारतीय इतिहास एवं स्वतंत्रता आंदोलन", "weight": 4,
+          "conceptNote": "Focus on landmark events, dynasties and leaders: Indus Valley, Mauryas and Guptas, the Delhi Sultanate and Mughals, the 1857 revolt, and the national movement (INC 1885, Non-Cooperation 1920, Civil Disobedience 1930, Quit India 1942). Learn the year, the leader and the outcome together.",
+          "subtopics": [
+            { "id": "gk-history-ancient", "name": "Ancient India", "nameHi": "प्राचीन भारत" },
+            { "id": "gk-history-medieval", "name": "Medieval India", "nameHi": "मध्यकालीन भारत" },
+            { "id": "gk-history-modern", "name": "Modern India and Freedom Struggle", "nameHi": "आधुनिक भारत एवं स्वतंत्रता संग्राम" }
+          ] },
+        { "id": "gk-geography", "name": "Indian Geography", "nameHi": "भारत का भूगोल", "weight": 3,
+          "conceptNote": "Know the major rivers and where they rise, the states and capitals, mountain ranges, soils and the main crops. Rivers that flow west into the Arabian Sea (Narmada, Tapti) are a frequent trap.",
+          "subtopics": [
+            { "id": "gk-geo-physical", "name": "Physical Geography of India", "nameHi": "भारत का भौतिक भूगोल" },
+            { "id": "gk-geo-states", "name": "States, Capitals and Rivers", "nameHi": "राज्य, राजधानियाँ एवं नदियाँ" }
+          ] },
+        { "id": "gk-polity", "name": "Indian Constitution and Polity", "nameHi": "भारतीय संविधान एवं राजव्यवस्था", "weight": 3,
+          "conceptNote": "Remember key articles (Art. 21 life and liberty, Art. 32 constitutional remedies, Art. 356 President's rule), the structure of Parliament (Lok Sabha, Rajya Sabha), who appoints whom, and fundamental rights versus directive principles.",
+          "subtopics": [
+            { "id": "gk-polity-constitution", "name": "Constitution and Fundamental Rights", "nameHi": "संविधान एवं मौलिक अधिकार" },
+            { "id": "gk-polity-parliament", "name": "Parliament and Government", "nameHi": "संसद एवं सरकार" }
+          ] },
+        { "id": "gk-economy", "name": "Indian Economy", "nameHi": "भारतीय अर्थव्यवस्था", "weight": 2,
+          "conceptNote": "Know what RBI, NITI Aayog and GST are, the meaning of GDP and inflation, and major welfare schemes. Definitions are tested more than numbers.",
+          "subtopics": [ { "id": "gk-economy-basics", "name": "Economic Institutions and Concepts", "nameHi": "आर्थिक संस्थाएँ एवं अवधारणाएँ" } ] },
+        { "id": "gk-mp", "name": "Madhya Pradesh General Knowledge", "nameHi": "मध्यप्रदेश सामान्य ज्ञान", "weight": 5,
+          "conceptNote": "Madhya Pradesh was formed on 1 November 1956 with Bhopal as its capital. Learn its rivers (Narmada rises at Amarkantak), national parks (Kanha, Bandhavgarh, Pench), UNESCO sites (Khajuraho, Sanchi, Bhimbetka), tribes (Gond, Bhil, Baiga) and folk culture.",
+          "subtopics": [
+            { "id": "gk-mp-geography", "name": "MP Geography and Rivers", "nameHi": "मध्यप्रदेश का भूगोल एवं नदियाँ" },
+            { "id": "gk-mp-history-culture", "name": "MP History, Heritage and Culture", "nameHi": "मध्यप्रदेश का इतिहास, धरोहर एवं संस्कृति" }
+          ] },
+        { "id": "gk-static", "name": "Static GK, Sports and Awards", "nameHi": "स्थैतिक सामान्य ज्ञान, खेल एवं पुरस्कार", "weight": 3,
+          "conceptNote": "Books and authors, national symbols, sports terms, international organisations and their headquarters. Learn in pairs (book–author, organisation–headquarters).",
+          "subtopics": [
+            { "id": "gk-static-books", "name": "Books, Authors and National Symbols", "nameHi": "पुस्तकें, लेखक एवं राष्ट्रीय प्रतीक" },
+            { "id": "gk-static-world", "name": "Sports, Organisations and the World", "nameHi": "खेल, संगठन एवं विश्व" }
+          ] },
+        { "id": "gk-computer", "name": "Basic Computer Knowledge", "nameHi": "कंप्यूटर का मूलभूत ज्ञान", "weight": 2,
+          "conceptNote": "Know input and output devices, memory types (RAM is volatile, ROM is not), units (1 KB = 1024 bytes), common shortcuts and basic internet terms.",
+          "subtopics": [ { "id": "gk-computer-basics", "name": "Hardware, Software and Internet", "nameHi": "हार्डवेयर, सॉफ्टवेयर एवं इंटरनेट" } ] },
+        { "id": "rsn-coding", "name": "Coding–Decoding", "nameHi": "कोडिंग–डिकोडिंग", "weight": 4,
+          "conceptNote": "Write the alphabet with positions (A=1 … Z=26). Find the rule from the example (shift each letter by +n, reverse, or position sums) and apply exactly the same rule to the new word. Check the rule on every letter, not just the first.",
+          "subtopics": [
+            { "id": "rsn-coding-letter-shift", "name": "Letter Shift Coding", "nameHi": "अक्षर विस्थापन कोडिंग" },
+            { "id": "rsn-coding-number", "name": "Letter-to-Number Coding", "nameHi": "अक्षर-संख्या कोडिंग" }
+          ] },
+        { "id": "rsn-series", "name": "Alphabet Series", "nameHi": "अक्षर श्रृंखला", "weight": 3,
+          "conceptNote": "Convert letters to positions, find the gap pattern (constant, increasing, alternating), then convert back. Remember that the alphabet wraps after Z only if the question says so.",
+          "subtopics": [ { "id": "rsn-series-letter", "name": "Letter Series", "nameHi": "अक्षर श्रृंखला" } ] },
+        { "id": "rsn-blood", "name": "Blood Relations", "nameHi": "रक्त संबंध", "weight": 3,
+          "conceptNote": "Draw a family tree: generations vertically, spouses horizontally, + for male and − for female. Resolve the statement one relation at a time from the end.",
+          "subtopics": [ { "id": "rsn-blood-basic", "name": "Family Relation Statements", "nameHi": "पारिवारिक संबंध कथन" } ] },
+        { "id": "rsn-direction", "name": "Direction Sense", "nameHi": "दिशा ज्ञान", "weight": 4,
+          "conceptNote": "Draw the path with north up. Right turn from North faces East; left turn from North faces West. Final distance from the start uses Pythagoras when the net movement is along two axes.",
+          "subtopics": [ { "id": "rsn-direction-distance", "name": "Direction and Distance", "nameHi": "दिशा एवं दूरी" } ] },
+        { "id": "rsn-analogy", "name": "Analogy and Classification", "nameHi": "सादृश्यता एवं वर्गीकरण", "weight": 4,
+          "conceptNote": "State the relationship of the first pair in a sentence (\"a pen is used to write\"), then test each option with the same sentence. For odd-one-out, find the property shared by three options.",
+          "subtopics": [
+            { "id": "rsn-analogy-number", "name": "Number Analogy", "nameHi": "संख्या सादृश्यता" },
+            { "id": "rsn-classification", "name": "Odd One Out", "nameHi": "विषम को चुनें" }
+          ] }
+      ]
+    },
+    {
+      "id": "mental-ability",
+      "name": "Intelligence and Mental Aptitude",
+      "nameHi": "बुद्धि एवं मानसिक क्षमता",
+      "topics": [
+        { "id": "ma-number-series", "name": "Number Series", "nameHi": "संख्या श्रृंखला", "weight": 6,
+          "conceptNote": "Look at the differences between terms first, then the second differences, then ratios. Common patterns: constant difference, increasing difference, ×n, squares and cubes, and alternating patterns.",
+          "subtopics": [
+            { "id": "ma-series-difference", "name": "Difference-based Series", "nameHi": "अंतर आधारित श्रृंखला" },
+            { "id": "ma-series-multiplicative", "name": "Multiplicative and Square Series", "nameHi": "गुणात्मक एवं वर्ग श्रृंखला" }
+          ] },
+        { "id": "ma-number-system", "name": "Number System, LCM and HCF", "nameHi": "संख्या पद्धति, ल.स. एवं म.स.", "weight": 5,
+          "conceptNote": "HCF is the largest number dividing all given numbers; LCM is the smallest number divisible by all of them. For two numbers, HCF × LCM = product. Use prime factorisation: HCF takes the lowest powers, LCM the highest.",
+          "subtopics": [
+            { "id": "ma-lcm-hcf", "name": "LCM and HCF", "nameHi": "ल.स. एवं म.स." },
+            { "id": "ma-divisibility", "name": "Divisibility and Remainders", "nameHi": "विभाज्यता एवं शेषफल" }
+          ] },
+        { "id": "ma-simplification", "name": "Simplification (BODMAS)", "nameHi": "सरलीकरण (BODMAS)", "weight": 6,
+          "conceptNote": "Apply BODMAS strictly: Brackets, Orders, Division and Multiplication left to right, then Addition and Subtraction left to right. Most errors come from adding before multiplying.",
+          "subtopics": [ { "id": "ma-bodmas", "name": "Order of Operations", "nameHi": "संक्रियाओं का क्रम" } ] },
+        { "id": "ma-ranking", "name": "Order and Ranking", "nameHi": "क्रम एवं रैंकिंग", "weight": 4,
+          "conceptNote": "Total = position from top + position from bottom − 1. Position from the other end = total − position + 1.",
+          "subtopics": [ { "id": "ma-ranking-position", "name": "Position in a Row", "nameHi": "पंक्ति में स्थान" } ] },
+        { "id": "ma-calendar-clock", "name": "Calendar and Clock", "nameHi": "कैलेंडर एवं घड़ी", "weight": 4,
+          "conceptNote": "Clock: angle = |30H − 5.5M| degrees. Calendar: an ordinary year shifts the weekday by 1, a leap year by 2; count odd days modulo 7.",
+          "subtopics": [
+            { "id": "ma-clock-angle", "name": "Clock Angles", "nameHi": "घड़ी के कोण" },
+            { "id": "ma-calendar-days", "name": "Day of the Week", "nameHi": "सप्ताह का दिन" }
+          ] },
+        { "id": "ma-ages", "name": "Problems on Ages", "nameHi": "आयु संबंधी प्रश्न", "weight": 5,
+          "conceptNote": "Let the present ages be variables, then move every statement to the same time point. The difference between two people's ages never changes.",
+          "subtopics": [ { "id": "ma-ages-linear", "name": "Age Equations", "nameHi": "आयु समीकरण" } ] }
+      ]
+    },
+    {
+      "id": "science-arithmetic",
+      "name": "Science and Simple Arithmetic",
+      "nameHi": "विज्ञान एवं सरल अंकगणित",
+      "topics": [
+        { "id": "sci-physics", "name": "Physics in Everyday Life", "nameHi": "दैनिक जीवन में भौतिकी", "weight": 3,
+          "conceptNote": "Know SI units (force: newton, work and energy: joule, power: watt, current: ampere), Newton's laws, speed of light and sound, reflection and refraction, and simple electric circuits.",
+          "subtopics": [
+            { "id": "sci-physics-units", "name": "Units and Measurement", "nameHi": "मात्रक एवं मापन" },
+            { "id": "sci-physics-phenomena", "name": "Motion, Light, Sound and Electricity", "nameHi": "गति, प्रकाश, ध्वनि एवं विद्युत" }
+          ] },
+        { "id": "sci-chemistry", "name": "Chemistry in Everyday Life", "nameHi": "दैनिक जीवन में रसायन", "weight": 3,
+          "conceptNote": "Know common chemical formulas (water H2O, common salt NaCl, baking soda NaHCO3), acids and bases (pH below 7 is acidic), metals and non-metals, and everyday reactions such as rusting.",
+          "subtopics": [ { "id": "sci-chem-basics", "name": "Elements, Compounds, Acids and Bases", "nameHi": "तत्व, यौगिक, अम्ल एवं क्षार" } ] },
+        { "id": "sci-biology", "name": "Biology, Health and Environment", "nameHi": "जीवविज्ञान, स्वास्थ्य एवं पर्यावरण", "weight": 4,
+          "conceptNote": "Know the human organ systems, vitamins and the diseases caused by their deficiency (vitamin C – scurvy, vitamin D – rickets), photosynthesis, and basic ecology (food chains, pollution).",
+          "subtopics": [
+            { "id": "sci-bio-human", "name": "Human Body and Nutrition", "nameHi": "मानव शरीर एवं पोषण" },
+            { "id": "sci-bio-plants-env", "name": "Plants and Environment", "nameHi": "पौधे एवं पर्यावरण" }
+          ] },
+        { "id": "ar-percentage", "name": "Percentage", "nameHi": "प्रतिशत", "weight": 3,
+          "conceptNote": "x% of N = N × x / 100. Percentage change = (change ÷ original) × 100. Successive changes of a% and b% give a net change of a + b + ab/100 percent, not a + b.",
+          "subtopics": [
+            { "id": "ar-percentage-basic", "name": "Percentage of a Quantity", "nameHi": "किसी राशि का प्रतिशत" },
+            { "id": "ar-percentage-change", "name": "Percentage Change", "nameHi": "प्रतिशत परिवर्तन" }
+          ] },
+        { "id": "ar-profit-loss", "name": "Profit and Loss", "nameHi": "लाभ एवं हानि", "weight": 3,
+          "conceptNote": "Profit % and loss % are always calculated on the cost price, not the selling price. SP = CP × (100 + P%) / 100. Discount is calculated on the marked price.",
+          "subtopics": [ { "id": "ar-profit-loss-basic", "name": "Cost Price, Selling Price and Discount", "nameHi": "क्रय मूल्य, विक्रय मूल्य एवं छूट" } ] },
+        { "id": "ar-ratio", "name": "Ratio and Proportion", "nameHi": "अनुपात एवं समानुपात", "weight": 2,
+          "conceptNote": "To divide N in the ratio a : b, the parts are N × a/(a+b) and N × b/(a+b). Add the ratio parts first, then multiply.",
+          "subtopics": [ { "id": "ar-ratio-division", "name": "Dividing in a Ratio", "nameHi": "अनुपात में विभाजन" } ] },
+        { "id": "ar-average", "name": "Average", "nameHi": "औसत", "weight": 2,
+          "conceptNote": "Average = sum ÷ count. When one value is added or removed, find the new sum first: new sum = old average × old count ± value.",
+          "subtopics": [ { "id": "ar-average-basic", "name": "Mean of Quantities", "nameHi": "राशियों का माध्य" } ] },
+        { "id": "ar-interest", "name": "Simple and Compound Interest", "nameHi": "साधारण एवं चक्रवृद्धि ब्याज", "weight": 3,
+          "conceptNote": "Simple interest = P × R × T / 100. Compound amount = P × (1 + R/100)^T. Compound interest = amount − principal. Over 2 years, CI − SI = P × (R/100)².",
+          "subtopics": [
+            { "id": "ar-interest-simple", "name": "Simple Interest", "nameHi": "साधारण ब्याज" },
+            { "id": "ar-interest-compound", "name": "Compound Interest", "nameHi": "चक्रवृद्धि ब्याज" }
+          ] },
+        { "id": "ar-time-work", "name": "Time and Work", "nameHi": "समय एवं कार्य", "weight": 3,
+          "conceptNote": "If A finishes a job in a days, A does 1/a of it per day. Working together, rates add: 1/a + 1/b. Time together = ab / (a + b).",
+          "subtopics": [ { "id": "ar-time-work-combined", "name": "Combined Work", "nameHi": "संयुक्त कार्य" } ] },
+        { "id": "ar-speed", "name": "Time, Speed and Distance", "nameHi": "समय, चाल एवं दूरी", "weight": 3,
+          "conceptNote": "Distance = speed × time. Convert km/h to m/s by multiplying by 5/18. Average speed for equal distances is 2xy/(x + y), not the simple average.",
+          "subtopics": [
+            { "id": "ar-speed-basic", "name": "Speed, Time and Distance", "nameHi": "चाल, समय एवं दूरी" },
+            { "id": "ar-speed-average", "name": "Average Speed", "nameHi": "औसत चाल" }
+          ] },
+        { "id": "ar-mensuration", "name": "Mensuration", "nameHi": "क्षेत्रमिति", "weight": 1,
+          "conceptNote": "Rectangle area = l × b and perimeter = 2(l + b). Circle area = πr² and circumference = 2πr. Use π = 22/7 when the radius is a multiple of 7.",
+          "subtopics": [ { "id": "ar-mensuration-2d", "name": "Area and Perimeter", "nameHi": "क्षेत्रफल एवं परिमाप" } ] }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "mpesb-pcrt-2026-rulebook",
+      "title": "Police Constable (GD) Direct Recruitment Test 2026 – Rule Book",
+      "url": "https://esb.mp.gov.in/Rulebooks/RB_2026/PCRT_GD_2026_RuleBook_09092026.pdf",
+      "organization": "Madhya Pradesh Employees Selection Board (MPESB)",
+      "publishedAt": "2026-09-09",
+      "accessedAt": null,
+      "cycle": "PCRT-GD 2026",
+      "reference": "Exam scheme and syllabus annexure (page not confirmed)",
+      "verification": "NOT_ACCESSED",
+      "notes": "URL as cited by Careers360 (23-Sep-2026). The build environment could not fetch it (proxy refusal / robots). Primary source to confirm."
+    },
+    {
+      "id": "bhopalsamachar-2026-notification",
+      "title": "MP Police Constable Recruitment 2026 Notification Out",
+      "url": "https://www.bhopalsamachar.com/2026/09/mp-police-constable-recruitment-2026-notification.html",
+      "organization": "Bhopal Samachar (news)",
+      "publishedAt": "2026-09-09",
+      "accessedAt": "2026-10-19",
+      "cycle": "PCRT-GD 2026",
+      "reference": "Exam pattern section",
+      "verification": "SECONDARY",
+      "notes": "100 MCQs, 100 marks, 2 hours, no negative marking, sections 40/30/30, exam from 19-Nov-2026, 7,500 posts."
+    },
+    {
+      "id": "careers360-2026-recruitment",
+      "title": "MP Police Constable Recruitment 2026 (Hindi)",
+      "url": "https://competition.careers360.com/hi/articles/mp-police-constable-recruitment-2026",
+      "organization": "Careers360",
+      "publishedAt": "2026-09-23",
+      "accessedAt": "2026-10-19",
+      "cycle": "PCRT-GD 2026",
+      "reference": "Exam pattern and syllabus tables",
+      "verification": "SECONDARY",
+      "notes": "Same pattern; states medium as Hindi; gives rule book URL."
+    },
+    {
+      "id": "careers360-2025-syllabus",
+      "title": "MP Police Constable Syllabus 2025 (Hindi)",
+      "url": "https://competition.careers360.com/hi/article/199623",
+      "organization": "Careers360",
+      "publishedAt": "2026-02-24",
+      "accessedAt": "2026-10-19",
+      "cycle": "PCRT 2025",
+      "reference": "Syllabus table",
+      "verification": "SECONDARY",
+      "notes": "Lists 2025 topics. Places arithmetic under Mental Ability, conflicting with the section name 'Science and Simple Arithmetic'."
+    },
+    {
+      "id": "fpj-2025-answer-key",
+      "title": "MP Police Constable Recruitment 2025 answer key and response sheet released",
+      "url": "https://www.freepressjournal.in/education/mp-police-constable-recruitment-2025-written-exam-answer-key-and-response-sheet-released-raise-objections-till-december-20",
+      "organization": "Free Press Journal",
+      "publishedAt": "2025-12-17",
+      "accessedAt": "2026-10-19",
+      "cycle": "PCRT 2025",
+      "reference": "Answer key section",
+      "verification": "SECONDARY",
+      "notes": "2025 exam held 30-Oct to 15-Dec-2025; provisional answer key 17-Dec-2025 via esb.mp.gov.in TAC portal (login required); no negative marking."
+    },
+    {
+      "id": "studyiq-2025-syllabus",
+      "title": "MP Police Constable Syllabus 2025: Exam Pattern, Subject-Wise Topics",
+      "url": "https://www.studyiq.com/articles/mp-police-constable-syllabus/",
+      "organization": "StudyIQ",
+      "publishedAt": "2025-09-16",
+      "accessedAt": "2026-10-19",
+      "cycle": "PCRT 2025",
+      "reference": "Exam pattern table",
+      "verification": "SECONDARY",
+      "notes": "Same 40/30/30 pattern, 120 minutes, no negative marking, Class 8 level."
+    }
+  ],
+  "conflicts": [
+    "Section 2 vs Section 3 boundaries: some sources place arithmetic under 'Intelligence and Mental Aptitude', while the official section name is 'Science and Simple Arithmetic'. This config places reasoning-style numeric aptitude (series, LCM/HCF, BODMAS, ranking, clocks, ages) in Section 2 and applied arithmetic (percentage, profit and loss, interest, speed, work, mensuration) in Section 3.",
+    "Language of the paper: one source says Hindi; others are silent. Marked unverified.",
+    "2025 news coverage gives different exam start dates (4 Oct, 10 Oct, 30 Oct 2025); the 2025 answer-key article confirms 30 Oct to 15 Dec 2025."
+  ]
+}
