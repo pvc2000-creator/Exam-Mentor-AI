@@ -104,8 +104,8 @@ Run these in **PowerShell**.
    - Or Docker Desktop, then from the project folder: `docker compose up -d` (uses [docker-compose.yml](docker-compose.yml), which creates the `exammentor` database).
 3. **Get the code and install dependencies:**
    ```powershell
-   git clone https://github.com/pvc2000-creator/exam-mentor-ai.git
-   cd exam-mentor-ai
+   git clone https://github.com/pvc2000-creator/Exam-Mentor-AI.git
+   cd Exam-Mentor-AI
    npm ci
    ```
 4. **Create your environment file** and edit `DATABASE_URL` to match your PostgreSQL password:
