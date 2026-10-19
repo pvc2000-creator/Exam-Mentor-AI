@@ -1,0 +1,4 @@
+topic_id,subtopic_id,skill_key,language,stem,stem_hi,option_a,option_b,option_c,option_d,correct_option,explanation,difficulty,difficulty_basis,expected_time_sec,origin,is_synthetic,license
+ar-percentage,,ar-percentage.sample,EN,"SAMPLE (synthetic): What is 15% of 260?","नमूना (कृत्रिम): 260 का 15% कितना है?",36,39,41,26,B,"15% of 260 = 0.15 × 260 = 39.",EASY,Single operation,30,HUMAN_AUTHORED,true,CC0 sample
+gk-computer,,gk-computer.sample,EN,"SAMPLE (synthetic): Which of these is an input device?","नमूना (कृत्रिम): इनमें से कौन इनपुट डिवाइस है?",Monitor,Printer,Keyboard,Speaker,C,"A keyboard sends data into the computer; the others present output.",EASY,Recall,20,HUMAN_AUTHORED,true,CC0 sample
+ar-percentage,,ar-percentage.sample,EN,"SAMPLE (synthetic): Row without an answer, to show validation.",,10,20,30,40,,,EASY,,30,HUMAN_AUTHORED,true,CC0 sample

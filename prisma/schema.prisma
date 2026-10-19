@@ -1,0 +1,553 @@
+// ExamMentor AI data model.
+// Raw events (attempts, responses) are kept separately from derived summaries
+// (skill states, snapshots, recommendations) so summaries can always be rebuilt.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  STUDENT
+  ADMIN
+}
+
+enum Language {
+  EN
+  HI
+}
+
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+enum QuestionType {
+  MCQ_SINGLE
+}
+
+enum QuestionOrigin {
+  OFFICIAL_PREVIOUS_YEAR // authorised previous-year paper item
+  SOURCE_MATERIAL // other legitimately reusable source material
+  SYNTHETIC_TEMPLATE // generated from a parameterised template with a computed answer
+  AI_AUTHORED // written by an AI model (offline or via provider)
+  HUMAN_AUTHORED
+}
+
+enum VerificationStatus {
+  VERIFIED // answer confirmed by deterministic computation or human review
+  PROVISIONAL // passed automated checks, awaiting human review; labelled in UI
+  PENDING_REVIEW // not eligible for mocks
+  REJECTED
+}
+
+enum VerificationMethod {
+  DETERMINISTIC_COMPUTATION
+  HUMAN_REVIEW
+  AUTOMATED_CHECKS
+  OFFICIAL_ANSWER_KEY
+  NONE
+}
+
+enum MockType {
+  FULL_LENGTH
+  SUBJECT
+  TOPIC_PRACTICE
+  ADAPTIVE_WEAKNESS
+  SPEED_DRILL
+  REVISION
+  MIXED
+  DIAGNOSTIC
+}
+
+enum FeedbackMode {
+  IMMEDIATE
+  END_OF_SET
+}
+
+enum AttemptStatus {
+  IN_PROGRESS
+  SUBMITTED
+  AUTO_SUBMITTED
+}
+
+enum ErrorCategory {
+  CONCEPTUAL
+  KNOWLEDGE_GAP
+  CALCULATION
+  MISREAD
+  RULE_MISAPPLICATION
+  GUESSING
+  RUSHED
+  TIME_MANAGEMENT
+  UNCLASSIFIED
+}
+
+enum SkillLevel {
+  TOPIC
+  SUBTOPIC
+}
+
+enum MasteryState {
+  NOT_STARTED
+  INSUFFICIENT_DATA
+  WEAK
+  DEVELOPING
+  PROFICIENT
+  MASTERED
+  NEEDS_REVIEW
+}
+
+enum MilestoneKind {
+  MASTERY_ACHIEVED
+  RETENTION_CONFIRMED
+  MASTERY_LOST
+  BECAME_WEAK
+}
+
+enum RecommendationStatus {
+  ACTIVE
+  COMPLETED
+  DISMISSED
+  SUPERSEDED
+}
+
+model User {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  name         String
+  passwordHash String
+  role         Role      @default(STUDENT)
+  preferredLanguage Language @default(EN)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  sessions        Session[]
+  mocks           MockTest[]
+  attempts        Attempt[]
+  skillStates     StudentSkillState[]
+  snapshots       MasterySnapshot[]
+  recommendations Recommendation[]
+  milestones      MasteryMilestone[]
+  auditLogs       AuditLog[]
+}
+
+model Session {
+  id          String   @id @default(cuid())
+  tokenHash   String   @unique
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt   DateTime
+  createdAt   DateTime @default(now())
+  lastSeenAt  DateTime @default(now())
+
+  @@index([userId])
+}
+
+model Exam {
+  id        String   @id @default(cuid())
+  code      String   @unique // e.g. MP_POLICE_CONSTABLE
+  name      String
+  nameHi    String?
+  createdAt DateTime @default(now())
+
+  syllabusVersions SyllabusVersion[]
+  subjects         Subject[]
+}
+
+// A versioned examination configuration: blueprint, marking scheme, duration,
+// sources and verification status. Only one version is active per exam.
+model SyllabusVersion {
+  id           String   @id @default(cuid())
+  examId       String
+  exam         Exam     @relation(fields: [examId], references: [id])
+  version      String // e.g. "2026.1"
+  cycle        String // e.g. "PCRT-GD 2026"
+  isActive     Boolean  @default(false)
+  config       Json // full ExamConfig (validated by zod in src/lib/exam-config.ts)
+  verification String // e.g. "SECONDARY_CONSISTENT"
+  notes        String?
+  createdAt    DateTime @default(now())
+
+  mocks MockTest[]
+
+  @@unique([examId, version])
+  @@index([examId, isActive])
+}
+
+model Subject {
+  id        String  @id // deterministic slug, e.g. "gk-reasoning"
+  examId    String
+  exam      Exam    @relation(fields: [examId], references: [id])
+  name      String
+  nameHi    String?
+  sortOrder Int     @default(0)
+
+  topics    Topic[]
+  questions Question[]
+}
+
+model Topic {
+  id          String  @id // deterministic slug, e.g. "arith-percentage"
+  subjectId   String
+  subject     Subject @relation(fields: [subjectId], references: [id])
+  name        String
+  nameHi      String?
+  conceptNote String? // concise explanation used by recommendations & offline tutor
+  sortOrder   Int     @default(0)
+
+  subtopics Subtopic[]
+  questions Question[]
+
+  @@index([subjectId])
+}
+
+model Subtopic {
+  id        String @id
+  topicId   String
+  topic     Topic  @relation(fields: [topicId], references: [id])
+  name      String
+  nameHi    String?
+  sortOrder Int    @default(0)
+
+  objectives LearningObjective[]
+  questions  Question[]
+
+  @@index([topicId])
+}
+
+model LearningObjective {
+  id          String   @id
+  subtopicId  String
+  subtopic    Subtopic @relation(fields: [subtopicId], references: [id])
+  description String
+
+  questions Question[]
+
+  @@index([subtopicId])
+}
+
+model Source {
+  id              String    @id // deterministic slug
+  title           String
+  url             String?
+  organization    String?
+  publishedAt     DateTime?
+  accessedAt      DateTime?
+  cycle           String?
+  license         String // e.g. "Synthetic (project-owned)", "Official - analysis only"
+  allowsRepublish Boolean   @default(false)
+  notes           String?
+
+  questions Question[]
+  papers    PaperRecord[]
+}
+
+// A previous-year paper (or other assessment) used for distribution analysis.
+model PaperRecord {
+  id           String   @id // deterministic slug, e.g. "pcrt-2025-shift1"
+  title        String
+  year         Int
+  cycle        String
+  shift        String?
+  sourceId     String?
+  source       Source?  @relation(fields: [sourceId], references: [id])
+  isVerified   Boolean  @default(false)
+  questionCount Int     @default(0)
+  notes        String?
+  createdAt    DateTime @default(now())
+
+  questions Question[]
+}
+
+model Question {
+  id                 String             @id // deterministic: "q_" + fingerprint prefix
+  fingerprint        String             @unique // sha256 of normalised stem + options
+  examCode           String             @default("MP_POLICE_CONSTABLE")
+  subjectId          String
+  subject            Subject            @relation(fields: [subjectId], references: [id])
+  topicId            String
+  topic              Topic              @relation(fields: [topicId], references: [id])
+  subtopicId         String?
+  subtopic           Subtopic?          @relation(fields: [subtopicId], references: [id])
+  objectiveId        String?
+  objective          LearningObjective? @relation(fields: [objectiveId], references: [id])
+  skillKey           String // the underlying skill; variants share it
+  type               QuestionType       @default(MCQ_SINGLE)
+  language           Language           @default(EN) // primary language
+  stem               String
+  stemHi             String?
+  options            Json // [{key, text, textHi?, rationale?, misconception?}]
+  correctOption      String // option key, e.g. "B"
+  explanation        String?
+  explanationHi      String?
+  difficulty         Difficulty
+  difficultyBasis    String // rubric rule or evidence used to assign difficulty
+  requiredSkill      String?
+  expectedTimeSec    Int
+  isNumerical        Boolean            @default(false)
+  origin             QuestionOrigin
+  isSynthetic        Boolean            @default(true)
+  generator          String? // template id or model name
+  sourceId           String?
+  source             Source?            @relation(fields: [sourceId], references: [id])
+  sourceRef          String? // page/question number in source document
+  paperId            String?
+  paper              PaperRecord?       @relation(fields: [paperId], references: [id])
+  verificationStatus VerificationStatus
+  verificationMethod VerificationMethod @default(NONE)
+  reviewNotes        String?
+  license            String?
+  qualityFlags       String[]           @default([])
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+  lastReviewedAt     DateTime?
+  observedPValue     Float? // share correct across all students (calibration)
+  observedAttempts   Int                @default(0)
+
+  mockQuestions MockTestQuestion[]
+  responses     Response[]
+  reviewEvents  ReviewEvent[]
+
+  @@index([topicId, verificationStatus, difficulty])
+  @@index([subtopicId])
+  @@index([skillKey])
+  @@index([verificationStatus])
+}
+
+model ReviewEvent {
+  id         String             @id @default(cuid())
+  questionId String
+  question   Question           @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  reviewerId String?
+  fromStatus VerificationStatus
+  toStatus   VerificationStatus
+  note       String?
+  createdAt  DateTime           @default(now())
+
+  @@index([questionId])
+}
+
+model ImportBatch {
+  id          String   @id @default(cuid())
+  fileName    String
+  format      String
+  importedBy  String?
+  createdAt   DateTime @default(now())
+  totalRecords Int
+  created     Int
+  duplicates  Int
+  invalid     Int
+  flagged     Int
+  report      Json
+}
+
+// A generated mock with its full, reproducible configuration.
+model MockTest {
+  id                String          @id @default(cuid())
+  userId            String
+  user              User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  syllabusVersionId String
+  syllabusVersion   SyllabusVersion @relation(fields: [syllabusVersionId], references: [id])
+  type              MockType
+  title             String
+  seed              Int
+  durationSec       Int
+  questionCount     Int
+  feedbackMode      FeedbackMode    @default(END_OF_SET)
+  markingScheme     Json // {correct, incorrect, unanswered}
+  allocation        Json // slot categories per topic with reasons
+  selectionCriteria Json // filters, difficulty targets, policy version
+  shortages         Json // topics where the bank had too few eligible questions
+  scope             Json? // subject/topic filter for scoped mocks
+  createdAt         DateTime        @default(now())
+
+  questions MockTestQuestion[]
+  attempt   Attempt?
+
+  @@index([userId, createdAt])
+}
+
+model MockTestQuestion {
+  id              String     @id @default(cuid())
+  mockTestId      String
+  mockTest        MockTest   @relation(fields: [mockTestId], references: [id], onDelete: Cascade)
+  questionId      String
+  question        Question   @relation(fields: [questionId], references: [id])
+  position        Int
+  slotCategory    String // e.g. REMEDIATION, MAINTENANCE, COVERAGE
+  reason          String
+  previouslySeen  Boolean    @default(false)
+  // Snapshots so later question-bank edits never change historical scoring.
+  correctOptionSnapshot String
+  difficultySnapshot    Difficulty
+  topicIdSnapshot       String
+  subtopicIdSnapshot    String?
+
+  responses Response[]
+
+  @@unique([mockTestId, position])
+  @@unique([mockTestId, questionId])
+  @@index([questionId])
+}
+
+model Attempt {
+  id           String        @id @default(cuid())
+  mockTestId   String        @unique
+  mockTest     MockTest      @relation(fields: [mockTestId], references: [id], onDelete: Cascade)
+  userId       String
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  status       AttemptStatus @default(IN_PROGRESS)
+  startedAt    DateTime      @default(now())
+  deadlineAt   DateTime
+  submittedAt  DateTime?
+  score        Float?
+  maxScore     Float?
+  correctCount   Int?
+  incorrectCount Int?
+  unansweredCount Int?
+  timeSpentSec Int?
+  summary      Json? // per-subject/topic breakdown, computed at submission
+
+  responses Response[]
+
+  @@index([userId, status])
+  @@index([userId, submittedAt])
+}
+
+model Response {
+  id                 String           @id @default(cuid())
+  attemptId          String
+  attempt            Attempt          @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+  mockTestQuestionId String
+  mockTestQuestion   MockTestQuestion @relation(fields: [mockTestQuestionId], references: [id], onDelete: Cascade)
+  questionId         String
+  question           Question         @relation(fields: [questionId], references: [id])
+  userId             String // denormalised for per-student history queries
+  topicId            String
+  subtopicId         String?
+  skillKey           String
+  difficulty         Difficulty
+  selectedOption     String?
+  isCorrect          Boolean?
+  timeSpentMs        Int              @default(0)
+  visits             Int              @default(0)
+  answerChanges      Int              @default(0)
+  markedForReview    Boolean          @default(false)
+  selfConfidence     Int? // optional 1-3 self report
+  answeredAt         DateTime?
+  errorCategory      ErrorCategory?
+  errorConfidence    Float?
+  errorIsTentative   Boolean?
+  errorEvidence      Json?
+  scored             Boolean          @default(false)
+  feedbackShown      Boolean          @default(false) // immediate-feedback mode locks the answer once revealed
+  createdAt          DateTime         @default(now())
+  updatedAt          DateTime         @updatedAt
+
+  @@unique([attemptId, mockTestQuestionId])
+  @@index([userId, topicId, createdAt])
+  @@index([userId, subtopicId])
+  @@index([userId, questionId])
+  @@index([userId, skillKey])
+}
+
+// Derived per-student, per-topic/subtopic learning state. Rebuildable from Response.
+model StudentSkillState {
+  id                 String       @id @default(cuid())
+  userId             String
+  user               User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  level              SkillLevel
+  nodeId             String // topic or subtopic id
+  attempts           Int          @default(0)
+  correct            Int          @default(0)
+  incorrect          Int          @default(0)
+  unanswered         Int          @default(0)
+  distinctQuestions  Int          @default(0)
+  accuracy           Float        @default(0)
+  smoothedAccuracy   Float        @default(0)
+  recentAccuracy     Float?
+  difficultyAdjusted Float        @default(0)
+  medianTimeMs       Int?
+  p25TimeMs          Int?
+  p75TimeMs          Int?
+  slowShare          Float        @default(0)
+  repeatedMistakes   Int          @default(0)
+  masteryScore       Float        @default(0)
+  confidence         Float        @default(0)
+  state              MasteryState @default(NOT_STARTED)
+  stateReason        String?
+  gateProgress       Json? // which mastery gate criteria are met
+  trend              Float? // recent minus historical accuracy
+  lastPracticedAt    DateTime?
+  masteredAt         DateTime?
+  retentionDueAt     DateTime?
+  retentionPassedAt  DateTime?
+  nextAction         String?
+  updatedAt          DateTime     @updatedAt
+
+  @@unique([userId, level, nodeId])
+  @@index([userId, state])
+}
+
+model MasterySnapshot {
+  id           String       @id @default(cuid())
+  userId       String
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  attemptId    String?
+  level        SkillLevel
+  nodeId       String
+  masteryScore Float
+  confidence   Float
+  state        MasteryState
+  accuracy     Float
+  createdAt    DateTime     @default(now())
+
+  @@index([userId, nodeId, createdAt])
+}
+
+model MasteryMilestone {
+  id        String        @id @default(cuid())
+  userId    String
+  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  level     SkillLevel
+  nodeId    String
+  kind      MilestoneKind
+  detail    String?
+  createdAt DateTime      @default(now())
+
+  @@index([userId, createdAt])
+}
+
+model Recommendation {
+  id          String               @id @default(cuid())
+  userId      String
+  user        User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  kind        String // REVIEW_CONCEPT, TARGETED_PRACTICE, TIMED_DRILL, REVISE, MIXED_ASSESSMENT, REASSESS, RETRY_SIMILAR
+  nodeId      String?
+  title       String
+  reason      String
+  priority    Int
+  status      RecommendationStatus @default(ACTIVE)
+  attemptId   String?
+  createdAt   DateTime             @default(now())
+
+  @@index([userId, status, priority])
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  action    String
+  target    String?
+  detail    Json?
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+}

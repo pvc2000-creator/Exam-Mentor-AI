@@ -1,0 +1,10 @@
+{
+  "source": { "id": "sample-synthetic-source", "title": "Sample synthetic questions (for testing the importer)", "license": "CC0 sample", "allowsRepublish": true },
+  "questions": [
+    {
+      "topic_id": "rsn-direction", "skill_key": "rsn-direction.sample", "stem": "SAMPLE (synthetic): A man walks 3 km North and then 4 km East. How far is he from the start?",
+      "options": ["5 km", "7 km", "1 km", "12 km"], "correct_option": "A",
+      "explanation": "Distance = √(3² + 4²) = 5 km.", "difficulty": "MEDIUM", "expected_time_sec": 45, "origin": "HUMAN_AUTHORED", "is_synthetic": true
+    }
+  ]
+}
